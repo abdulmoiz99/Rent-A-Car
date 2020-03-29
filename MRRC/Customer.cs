@@ -5,32 +5,48 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MRRC
+//This whole section was done by Kevin Gunawan, n9812482
 {
-    class Customer
+    //defining enum variable Gender
+    public enum Gender
     {
-        private  int customerID;
-        private string customerTitle;
+        Male,
+        Female
+    };
+    public class Customer
+    {
+        //defining private variables
+        private int customerID;
+        private string title;
         private string firstName;
         private string lastName;
-        private GenderType gender;
-        private DateTime dateOfBirth;
+        private Gender gen;
+        private string dateOfBirth;
 
-        public  int CustomerID { get => customerID; set => customerID = value; }
-        public string CustomerTitle { get => customerTitle; set => customerTitle = value; }
-        public string FirstName { get => firstName; set => firstName = value; }
-        public string LastName { get => lastName; set => lastName = value; }
-        public DateTime DateOfBirth { get => dateOfBirth; set => dateOfBirth = value; }
-        public GenderType Gender { get => gender; set => gender = value; }
+        //setting the get;set proporties of variables
+        public int CustomerID { get => customerID; set => customerID = value; }
+        public string Title { get => title; set => title = value; }
+        public string FirstNames { get => firstName; set => firstName = value; }
+        public string LastNames { get => lastName; set => lastName = value; }
+        public string DateOfBirth { get => dateOfBirth; set => dateOfBirth = value; }
+        public Gender Gen { get => gen; set => gen = value; }
 
-        public enum GenderType
+        //This is a constructor for customer!
+        public Customer(int customerID, string title, string firstNames, string lastName, Gender gender, string dateOfBirth)
         {
-            Male,
-            Female
+            CustomerID = customerID;
+            Title = title;
+            FirstNames = firstNames;
+            LastNames = lastName;
+            Gen = gender;
+            DateOfBirth = dateOfBirth;
         }
-        public Customer()
+        //This is a method that returns a CSV representation of the customer.
+        public string ToCSVString()
         {
-
+            string csvString = "";
+            csvString = csvString + CustomerID.ToString() + "," + title + "," + FirstNames + "," + LastNames + "," + Gen.ToString() + "," + DateOfBirth;
+            return csvString;
         }
-
     }
 }
