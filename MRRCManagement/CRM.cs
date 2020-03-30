@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace MRRC
+namespace MRRCManagement
 {
     public class CRM
     {

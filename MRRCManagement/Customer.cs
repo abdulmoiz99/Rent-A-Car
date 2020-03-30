@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MRRC
+namespace MRRCManagement
 //This whole section was done by Kevin Gunawan, n9812482
 {
     //defining enum variable Gender

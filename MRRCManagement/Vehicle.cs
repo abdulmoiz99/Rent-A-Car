@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MRRC
+namespace MRRCManagement
 {
     //all the methods in this section were done by Kirsten Moylan, n9948210
     //setting enum variables: Kevin Gunawan, n9812482
