@@ -1,6 +1,7 @@
 using MRRCManagement;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -42,7 +43,36 @@ namespace MRRC
                         Console.WriteLine();
                         if (customerInput.Key == ConsoleKey.A)
                         {
-
+                            Console.WriteLine();
+                            List<Customer> customers = crm.GetCustomers();
+                            DataTable customersTable = new DataTable();
+                            DataRow customersRow = null;
+                            customersTable.TableName = "Customers";
+                            customersTable.Columns.Add("ID", typeof(int)).AllowDBNull = false;
+                            customersTable.Columns.Add("Title", typeof(string));
+                            customersTable.Columns.Add("First Name", typeof(string));
+                            customersTable.Columns.Add("Last Name", typeof(string));
+                            customersTable.Columns.Add("Gender", typeof(string));
+                            customersTable.Columns.Add("DOB", typeof(string));
+                            for (int i = 0; i < customers.Count; i++)
+                            {
+                                customersRow = customersTable.NewRow(); // have new row on each iteration
+                                customersRow["ID"] = customers[i].CustomerID;
+                                customersRow["Title"] = customers[i].Title;
+                                customersRow["First Name"] = customers[i].FirstNames;
+                                customersRow["Last Name"] = customers[i].LastNames;
+                                if (customers[i].Gen == Gender.Male)
+                                {
+                                    customersRow["Gender"] = "Male";
+                                }
+                                else 
+                                {
+                                    customersRow["Gender"] = "Female";
+                                }
+                                customersRow["DOB"] = customers[i].DateOfBirth;
+                                customersTable.Rows.Add(customersRow);
+                            }
+                            customersTable.Print();
                         }
                         else if (customerInput.Key == ConsoleKey.B) 
                         {
