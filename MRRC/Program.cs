@@ -61,6 +61,10 @@ namespace MRRC
                         {
                             Environment.Exit(0);
                         }
+                        else
+                        {
+                            Console.WriteLine("\nInvalid Input");
+                        }
                     }
                 }
                 else if (mainInput.Key == ConsoleKey.B)
