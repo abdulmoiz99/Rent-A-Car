@@ -28,6 +28,18 @@ namespace MRRCManagement
                 LoadFromFile();
             }
         }
+        
+        //Automatically Generates ID
+        public int GenerateID() 
+        {
+            int count = 0;
+            string[] clients = File.ReadAllLines(crmFile);
+            for (int i = 1; i < clients.Length; i++) 
+            {
+                count++;
+            }
+            return count;
+        }
 
         //reading from csv file and putting the customer objects into a list customersCollection
         //Kevin Gunawan, n9812482

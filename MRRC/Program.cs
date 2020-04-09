@@ -1,7 +1,9 @@
+using MRRCManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MRRC
@@ -27,6 +29,7 @@ namespace MRRC
                 {
                     while (true) 
                     {
+                        CRM crm = new CRM();
                         ConsoleKeyInfo customerInput;
                         Console.WriteLine("\nPlease enter a character from the options below:\n");
                         Console.WriteLine("a) Display Customers");
@@ -43,7 +46,71 @@ namespace MRRC
                         }
                         else if (customerInput.Key == ConsoleKey.B) 
                         {
-
+                            while (true) 
+                            {
+                                Customer customer;
+                                int ID;
+                                string title, firstName, lastName, gender, DOB;
+                                string[] format = new string[] { "dd/MM/yyyy" };
+                                DateTime dateTime;
+                                Console.WriteLine("\nPlease fill the following fields (fields marked with * are required):\n");
+                                Console.Write("Title*: ");
+                                title = Console.ReadLine();
+                                while (!Regex.IsMatch(title, @"^[a-zA-Z]+$")) 
+                                {
+                                    Console.WriteLine("\nInvalid Input\n");
+                                    Console.Write("Title*: ");
+                                    title = Console.ReadLine();
+                                }
+                                Console.Write("First Name*: ");
+                                firstName = Console.ReadLine();
+                                while (!Regex.IsMatch(firstName, @"^[a-zA-Z]+$"))
+                                {
+                                    Console.WriteLine("\nInvalid Input\n");
+                                    Console.Write("First Name*: ");
+                                    firstName = Console.ReadLine();
+                                }
+                                Console.Write("Last Name*: ");
+                                lastName = Console.ReadLine();
+                                while (!Regex.IsMatch(lastName, @"^[a-zA-Z]+$"))
+                                {
+                                    Console.WriteLine("\nInvalid Input\n");
+                                    Console.Write("Last Name*: ");
+                                    lastName = Console.ReadLine();
+                                }
+                                Console.Write("Gender*: ");
+                                gender = Console.ReadLine();
+                                gender = gender.ToLower();
+                                while (gender != "male" && gender != "female")
+                                {
+                                    Console.WriteLine("\nInvalid Input\n");
+                                    Console.Write("Gender*: ");
+                                    gender = Console.ReadLine();
+                                    gender = gender.ToLower();
+                                }
+                                Console.Write("DOB*: ");
+                                DOB = Console.ReadLine();
+                                while (!(DateTime.TryParseExact(DOB, format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.NoCurrentDateDefault, out dateTime)))
+                                {
+                                    Console.WriteLine("\nInvalid Format\n");
+                                    Console.Write("DOB*: ");
+                                    DOB = Console.ReadLine();
+                                }
+                                Console.WriteLine();
+                                ID = crm.GenerateID();
+                                if (gender == "male")
+                                {
+                                    customer = new Customer(ID, title, firstName, lastName, Gender.Male, DOB);
+                                }
+                                else 
+                                {
+                                    customer = new Customer(ID, title, firstName, lastName, Gender.Female, DOB);
+                                }
+                                crm.AddCustomer(customer);
+                                crm.SaveToFile();
+                                Console.WriteLine("Successfully created new customer '" + ID + " - " + title + " " + firstName + " " + lastName + "' and added to customer list.");
+                                break;
+                            }
                         }
                         else if (customerInput.Key == ConsoleKey.C)
                         {
