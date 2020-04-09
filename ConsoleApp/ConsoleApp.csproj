@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MRRCManagement\MRRCManagement.csproj">
+      <Project>{97a08795-5d08-4a66-b430-4aaccb3d68d4}</Project>
+      <Name>MRRCManagement</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
