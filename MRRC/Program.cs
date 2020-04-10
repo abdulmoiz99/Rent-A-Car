@@ -14,7 +14,7 @@ namespace MRRC
         static void Main(string[] args)
         {
             Console.WriteLine("\n### Mates-Rates Rent-a-Car Operation Menu ###\n");
-            Console.WriteLine("You may press the ESC key at any menu to exit. Press the BACKSPACE key to return to the previous menu");
+            Console.WriteLine("You may press the ESC key at any menu to exit. Press the BACKSPACE key to return to the previous menu.");
             while (true) 
             {
                 ConsoleKeyInfo mainInput;
