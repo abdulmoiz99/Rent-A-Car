@@ -88,7 +88,7 @@ namespace MRRC
                                 title = Console.ReadLine();
                                 while (!Regex.IsMatch(title, @"^[a-zA-Z]+$")) 
                                 {
-                                    Console.WriteLine("\nInvalid Input\n");
+                                    Console.WriteLine("\nInvalid Input!\n");
                                     Console.Write("Title*: ");
                                     title = Console.ReadLine();
                                 }
@@ -96,7 +96,7 @@ namespace MRRC
                                 firstName = Console.ReadLine();
                                 while (!Regex.IsMatch(firstName, @"^[a-zA-Z]+$"))
                                 {
-                                    Console.WriteLine("\nInvalid Input\n");
+                                    Console.WriteLine("\nInvalid Input!\n");
                                     Console.Write("First Name*: ");
                                     firstName = Console.ReadLine();
                                 }
@@ -104,7 +104,7 @@ namespace MRRC
                                 lastName = Console.ReadLine();
                                 while (!Regex.IsMatch(lastName, @"^[a-zA-Z]+$"))
                                 {
-                                    Console.WriteLine("\nInvalid Input\n");
+                                    Console.WriteLine("\nInvalid Input!\n");
                                     Console.Write("Last Name*: ");
                                     lastName = Console.ReadLine();
                                 }
@@ -113,7 +113,7 @@ namespace MRRC
                                 gender = gender.ToLower();
                                 while (gender != "male" && gender != "female")
                                 {
-                                    Console.WriteLine("\nInvalid Input\n");
+                                    Console.WriteLine("\nInvalid Input!\n");
                                     Console.Write("Gender*: ");
                                     gender = Console.ReadLine();
                                     gender = gender.ToLower();
@@ -122,7 +122,7 @@ namespace MRRC
                                 DOB = Console.ReadLine();
                                 while (!(DateTime.TryParseExact(DOB, format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.NoCurrentDateDefault, out dateTime)))
                                 {
-                                    Console.WriteLine("\nInvalid Format\n");
+                                    Console.WriteLine("\nIncorrect Format!\n");
                                     Console.Write("DOB*: ");
                                     DOB = Console.ReadLine();
                                 }
@@ -144,7 +144,133 @@ namespace MRRC
                         }
                         else if (customerInput.Key == ConsoleKey.C)
                         {
-
+                            string ID;
+                            Console.WriteLine("\nPlease enter an ID to modify record:\n");
+                            Console.Write("ID: ");
+                            ID = Console.ReadLine();
+                            while (!Regex.IsMatch(ID, @"^\d+$"))
+                            {
+                                Console.WriteLine("\nInvalid Input!\n");
+                                Console.Write("ID: ");
+                                ID = Console.ReadLine();
+                            }
+                            if (crm.FindCustomer(Convert.ToInt32(ID)))
+                            {
+                                while (true) 
+                                {
+                                    ConsoleKeyInfo modifyCustomerInput;
+                                    Console.WriteLine("\nPlease enter a character from the options below to modify trait:\n");
+                                    Console.WriteLine("a) Title");
+                                    Console.WriteLine("b) First Name");
+                                    Console.WriteLine("c) Last Name");
+                                    Console.WriteLine("d) Gender");
+                                    Console.WriteLine("e) DOB");
+                                    Console.WriteLine();
+                                    Console.Write(">");
+                                    modifyCustomerInput = Console.ReadKey();
+                                    Console.WriteLine();
+                                    if (modifyCustomerInput.Key == ConsoleKey.A)
+                                    {
+                                        string title;
+                                        Console.Write("\nTitle: ");
+                                        title = Console.ReadLine();
+                                        while (!Regex.IsMatch(title, @"^[a-zA-Z]+$"))
+                                        {
+                                            Console.WriteLine("\nInvalid Input!\n");
+                                            Console.Write("Title: ");
+                                            title = Console.ReadLine();
+                                        }
+                                        crm.ModifyCustomer(Convert.ToInt32(ID), 1, title);
+                                        crm.SaveToFile();
+                                        Console.WriteLine("\nID " + ID + " is successfully modified.");
+                                        break;
+                                    }
+                                    else if (modifyCustomerInput.Key == ConsoleKey.B)
+                                    {
+                                        string firstName;
+                                        Console.Write("\nFirst Name: ");
+                                        firstName = Console.ReadLine();
+                                        while (!Regex.IsMatch(firstName, @"^[a-zA-Z]+$"))
+                                        {
+                                            Console.WriteLine("\nInvalid Input!\n");
+                                            Console.Write("First Name: ");
+                                            firstName = Console.ReadLine();
+                                        }
+                                        crm.ModifyCustomer(Convert.ToInt32(ID), 2, firstName);
+                                        crm.SaveToFile();
+                                        Console.WriteLine("\nID " + ID + " is successfully modified.");
+                                        break;
+                                    }
+                                    else if (modifyCustomerInput.Key == ConsoleKey.C)
+                                    {
+                                        string lastName;
+                                        Console.Write("\nLast Name: ");
+                                        lastName = Console.ReadLine();
+                                        while (!Regex.IsMatch(lastName, @"^[a-zA-Z]+$"))
+                                        {
+                                            Console.WriteLine("\nInvalid Input!\n");
+                                            Console.Write("Last Name: ");
+                                            lastName = Console.ReadLine();
+                                        }
+                                        crm.ModifyCustomer(Convert.ToInt32(ID), 3, lastName);
+                                        crm.SaveToFile();
+                                        Console.WriteLine("\nID " + ID + " is successfully modified.");
+                                        break;
+                                    }
+                                    else if (modifyCustomerInput.Key == ConsoleKey.D)
+                                    {
+                                        string gender;
+                                        Console.Write("\nGender: ");
+                                        gender = Console.ReadLine();
+                                        gender = gender.ToLower();
+                                        while (gender != "male" && gender != "female")
+                                        {
+                                            Console.WriteLine("\nInvalid Input!\n");
+                                            Console.Write("Gender: ");
+                                            gender = Console.ReadLine();
+                                            gender = gender.ToLower();
+                                        }
+                                        crm.ModifyCustomer(Convert.ToInt32(ID), 4, gender);
+                                        crm.SaveToFile();
+                                        Console.WriteLine("\nID " + ID + " is successfully modified.");
+                                        break;
+                                    }
+                                    else if (modifyCustomerInput.Key == ConsoleKey.E)
+                                    {
+                                        string DOB;
+                                        string[] format = new string[] { "dd/MM/yyyy" };
+                                        DateTime dateTime;
+                                        Console.Write("\nDOB: ");
+                                        DOB = Console.ReadLine();
+                                        while (!(DateTime.TryParseExact(DOB, format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.NoCurrentDateDefault, out dateTime)))
+                                        {
+                                            Console.WriteLine("\nIncorrect Format!\n");
+                                            Console.Write("DOB: ");
+                                            DOB = Console.ReadLine();
+                                        }
+                                        crm.ModifyCustomer(Convert.ToInt32(ID), 5, DOB);
+                                        crm.SaveToFile();
+                                        Console.WriteLine("\nID " + ID + " is successfully modified.");
+                                        break;
+                                    }
+                                    else if (modifyCustomerInput.Key == ConsoleKey.Escape)
+                                    {
+                                        Environment.Exit(0);
+                                    }
+                                    else if (modifyCustomerInput.Key == ConsoleKey.Backspace)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\nInvalid Input!");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nID " + ID + " is not found.");
+                            }
                         }
                         else if (customerInput.Key == ConsoleKey.D)
                         {
@@ -154,7 +280,7 @@ namespace MRRC
                             ID = Console.ReadLine();
                             while (!Regex.IsMatch(ID, @"^\d+$"))
                             {
-                                Console.WriteLine("\nInvalid Input\n");
+                                Console.WriteLine("\nInvalid Input!\n");
                                 Console.Write("ID: ");
                                 ID = Console.ReadLine();
                             }
@@ -171,7 +297,7 @@ namespace MRRC
                         }
                         else
                         {
-                            Console.WriteLine("\nInvalid Input");
+                            Console.WriteLine("\nInvalid Input!");
                         }
                     }
                 }
@@ -193,7 +319,7 @@ namespace MRRC
                 }
                 else 
                 {
-                    Console.WriteLine("\nInvalid Input");
+                    Console.WriteLine("\nInvalid Input!");
                 }
             }
         }

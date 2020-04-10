@@ -177,5 +177,51 @@ namespace MRRCManagement
             Console.WriteLine("\nID " + customerID + " is not found.");
             return false;
         }
+
+        public bool FindCustomer(int customerID)
+        {
+            foreach (var item in customersCollection.ToList())
+            {
+                if (item.CustomerID == customerID)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void ModifyCustomer(int customerID, int columnIndex, string value)
+        {
+            int index;
+            Gender sex;
+            string[] clients = File.ReadAllLines(crmFile);
+            clients = clients.Skip(1).ToArray();
+            for (index = 0; index < customersCollection.Count; index++)
+            {
+                if (customersCollection[index].CustomerID == customerID)
+                {
+                    break;
+                }
+            }
+            string[] subset = clients[index].Split(',');
+            if (subset[4] == "Male")
+            {
+                sex = Gender.Male;
+            }
+            else 
+            {
+                sex = Gender.Female;
+            }
+            if (columnIndex == 4)
+            {
+                if (value == "male") sex = Gender.Male;
+                else sex = Gender.Female;
+            }
+            else 
+            {
+                subset[columnIndex] = value;
+            }
+            customersCollection[index] = new Customer(customerID, subset[1], subset[2], subset[3], sex, subset[5]);
+        }
     }
 }
