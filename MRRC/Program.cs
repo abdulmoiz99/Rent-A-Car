@@ -148,7 +148,18 @@ namespace MRRC
                         }
                         else if (customerInput.Key == ConsoleKey.D)
                         {
-
+                            string ID;
+                            Console.WriteLine("\nPlease enter an ID to delete record:\n");
+                            Console.Write("ID: ");
+                            ID = Console.ReadLine();
+                            while (!Regex.IsMatch(ID, @"^\d+$"))
+                            {
+                                Console.WriteLine("\nInvalid Input\n");
+                                Console.Write("ID: ");
+                                ID = Console.ReadLine();
+                            }
+                            crm.RemoveCustomer(Convert.ToInt32(ID));
+                            crm.SaveToFile();
                         }
                         else if (customerInput.Key == ConsoleKey.Backspace)
                         {

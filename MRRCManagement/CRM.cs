@@ -32,13 +32,10 @@ namespace MRRCManagement
         //Automatically Generates ID
         public int GenerateID() 
         {
-            int count = 0;
             string[] clients = File.ReadAllLines(crmFile);
-            for (int i = 1; i < clients.Length; i++) 
-            {
-                count++;
-            }
-            return count;
+            string[] subset = clients[clients.Length - 1].Split(',');
+            int id = int.Parse(subset[0]);
+            return id + 1;
         }
 
         //reading from csv file and putting the customer objects into a list customersCollection
@@ -163,6 +160,22 @@ namespace MRRCManagement
                 }
                 return true;
             }
+        }
+
+        //It is temporary function written for part A only in which renting is not included. 
+        public bool RemoveCustomer(int customerID)
+        {
+            foreach (var item in customersCollection.ToList())
+            {
+                if (item.CustomerID == customerID)
+                {
+                    customersCollection.Remove(item);
+                    Console.WriteLine("\nID " + customerID + " is successfully deleted.");
+                    return true;
+                }
+            }
+            Console.WriteLine("\nID " + customerID + " is not found.");
+            return false;
         }
     }
 }
