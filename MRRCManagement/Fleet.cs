@@ -10,6 +10,19 @@ namespace MRRCManagement
 {
     public class Fleet
     {
+        public string Registration { get; set; }
+        public string Grade { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public int Year { get; set; }
+        public int NumSeats { get; set; }
+        public string Transmission { get; set; }
+        public string Fuel { get; set; }
+        public bool GPS { get; set; }
+        public bool SunRoof { get; set; }
+        public float DailyRate { get; set; }
+        public string Colour { get; set; }
+
         //Kirsten Moylan, n9948210
         //All needed variables defined.
         List<Vehicle> vehicleCollection = new List<Vehicle>();
@@ -19,13 +32,22 @@ namespace MRRCManagement
 
         //constructor for fleet
         //Kevin Gunawan, n9812482
-        public Fleet()
+        public Fleet(string Registration, string Grade, string Make, string Model, int Year, int NumSeats, string Transmission, string Fuel, bool GPS, bool SunRoof, float DailyRate, string Colour)
         {
 
-            if (File.Exists(fleetFile))
-            {
-                LoadFromFile();
-            }
+            this.Registration = Registration;
+            this.Grade = Grade;
+            this.Make = Make;
+            this.Model = Model;
+            this.Year = Year;
+            this.NumSeats = NumSeats;
+            this.Transmission = Transmission;
+            this.Fuel = Fuel;
+            this.GPS = GPS;
+            this.SunRoof = SunRoof;
+            this.DailyRate = DailyRate;
+            this.Colour = Colour;
+
         }
         //load the state of fleet file into a list called vehicleCollection - defined earlier.
         // Kevin Gunawan, n9812482

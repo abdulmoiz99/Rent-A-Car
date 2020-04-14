@@ -12,7 +12,9 @@ namespace MRRCManagement
         //Kevin Gunawan, n9812482
         //all needed variables defined 
         List<Customer> customersCollection = new List<Customer>();
+        List<Fleet> fleetCollection = new List<Fleet>();
         private string crmFile = @"..\..\..\Data\customer.csv";
+        private string fleetFile = @"..\..\..\Data\fleet.csv";
 
         //CRM constructor that checks whether there are any customer.csv file. If there are none, a new empty csv file is created. Otherwise, data
         //from file is loaded into the list.
@@ -23,14 +25,19 @@ namespace MRRCManagement
             {
                 File.Create(crmFile);
             }
+            else if (!File.Exists(fleetFile))
+            {
+                File.Create(fleetFile);
+            }
             else
             {
                 LoadFromFile();
+                LoadFromFleetFile();
             }
         }
-        
+
         //Automatically Generates ID
-        public int GenerateID() 
+        public int GenerateID()
         {
             string[] clients = File.ReadAllLines(crmFile);
             string[] subset = clients[clients.Length - 1].Split(',');
@@ -64,14 +71,40 @@ namespace MRRCManagement
                 customersCollection.Add(new Customer(id, heading, first, last, sex, dob));
             }
         }
+        public void LoadFromFleetFile()
+        {
+            fleetCollection.Clear();
+            string[] clients = File.ReadAllLines(fleetFile);
+            for (int i = 1; i < clients.Length; i++)
+            {
+                string[] subset = clients[i].Split(',');
+                string Registration = subset[0];
+                string Grade = subset[1];
+                string Make = subset[2];
+                string Model = subset[3];
+                int Year = int.Parse(subset[4]);
+                int NumSeats =int.Parse(subset[5]);
+                string Transmission = subset[6];
+                string Fuel = subset[7];
+                bool GPS = bool.Parse(subset[8]);
+                bool SunRoof = bool.Parse(subset[9]);
+                float DailyRate = float.Parse(subset[10]);
+                string Colour = subset[11];
 
+                fleetCollection.Add(new Fleet(Registration, Grade, Make, Model, Year, NumSeats, Transmission, Fuel, GPS, SunRoof, DailyRate, Colour));
+            }
+        }
         //returning the list of current customersCollection
         //Kevin Gunawan, n9812482
         public List<Customer> GetCustomers()
         {
             return customersCollection;
         }
+        public List<Fleet> GetFleets()
+        {
+            return fleetCollection;
 
+        }
         //wrting the customer objects in the customersCollection list into the customer.csv file
         //Kevin Gunawan, n9812482
         public void SaveToFile()
@@ -208,7 +241,7 @@ namespace MRRCManagement
             {
                 sex = Gender.Male;
             }
-            else 
+            else
             {
                 sex = Gender.Female;
             }
@@ -217,7 +250,7 @@ namespace MRRCManagement
                 if (value == "male") sex = Gender.Male;
                 else sex = Gender.Female;
             }
-            else 
+            else
             {
                 subset[columnIndex] = value;
             }

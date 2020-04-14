@@ -13,9 +13,10 @@ namespace MRRC
     {
         static void Main(string[] args)
         {
+            CRM crm = new CRM();
             Console.WriteLine("\n### Mates-Rates Rent-a-Car Operation Menu ###\n");
             Console.WriteLine("You may press the ESC key at any menu to exit. Press the BACKSPACE key to return to the previous menu.");
-            while (true) 
+            while (true)
             {
                 ConsoleKeyInfo mainInput;
                 Console.WriteLine("\nPlease enter a character from the options below:\n");
@@ -28,9 +29,9 @@ namespace MRRC
                 Console.WriteLine();
                 if (mainInput.Key == ConsoleKey.A)
                 {
-                    while (true) 
+                    while (true)
                     {
-                        CRM crm = new CRM();
+                      
                         ConsoleKeyInfo customerInput;
                         Console.WriteLine("\nPlease enter a character from the options below:\n");
                         Console.WriteLine("a) Display Customers");
@@ -65,7 +66,7 @@ namespace MRRC
                                 {
                                     customersRow["Gender"] = "Male";
                                 }
-                                else 
+                                else
                                 {
                                     customersRow["Gender"] = "Female";
                                 }
@@ -74,9 +75,9 @@ namespace MRRC
                             }
                             customersTable.Print();
                         }
-                        else if (customerInput.Key == ConsoleKey.B) 
+                        else if (customerInput.Key == ConsoleKey.B)
                         {
-                            while (true) 
+                            while (true)
                             {
                                 Customer customer;
                                 int ID;
@@ -86,7 +87,7 @@ namespace MRRC
                                 Console.WriteLine("\nPlease fill the following fields (fields marked with * are required):\n");
                                 Console.Write("Title*: ");
                                 title = Console.ReadLine();
-                                while (!Regex.IsMatch(title, @"^[a-zA-Z]+$")) 
+                                while (!Regex.IsMatch(title, @"^[a-zA-Z]+$"))
                                 {
                                     Console.WriteLine("\nInvalid Input!\n");
                                     Console.Write("Title*: ");
@@ -132,7 +133,7 @@ namespace MRRC
                                 {
                                     customer = new Customer(ID, title, firstName, lastName, Gender.Male, DOB);
                                 }
-                                else 
+                                else
                                 {
                                     customer = new Customer(ID, title, firstName, lastName, Gender.Female, DOB);
                                 }
@@ -156,7 +157,7 @@ namespace MRRC
                             }
                             if (crm.FindCustomer(Convert.ToInt32(ID)))
                             {
-                                while (true) 
+                                while (true)
                                 {
                                     ConsoleKeyInfo modifyCustomerInput;
                                     Console.WriteLine("\nPlease enter a character from the options below to modify trait:\n");
@@ -303,7 +304,83 @@ namespace MRRC
                 }
                 else if (mainInput.Key == ConsoleKey.B)
                 {
+                    while (true)
+                    {
+                        Console.WriteLine("\nPlease enter a number from the option below:\n");
+                        Console.WriteLine("a) Display Fleet");
+                        Console.WriteLine("b) New Vehicle");
+                        Console.WriteLine("c) Modify Vehicle");
+                        Console.WriteLine("d) Delete  Vehicle\n");
+                        Console.Write(">");
+                        ConsoleKeyInfo fleetInput;
+                        fleetInput = Console.ReadKey();
+                        if (fleetInput.Key == ConsoleKey.A)
+                        {
+                            Console.WriteLine();
+                            List<Fleet> fleets = crm.GetFleets();
+                            var fleetTable = new DataTable();
+                            DataRow fleetRow = null;
+                            fleetTable.TableName = "Fleet";
+                            fleetTable.Columns.Add("Registration", typeof(string));
+                            fleetTable.Columns.Add("Grade", typeof(string));
+                            fleetTable.Columns.Add("Make", typeof(string));
+                            fleetTable.Columns.Add("Model", typeof(string));
+                            fleetTable.Columns.Add("Year", typeof(int)).AllowDBNull = false;
+                            fleetTable.Columns.Add("NumSeats", typeof(int)).AllowDBNull = false;
+                            fleetTable.Columns.Add("Transmission", typeof(string));
+                            fleetTable.Columns.Add("Fuel", typeof(string));
+                            fleetTable.Columns.Add("GPS", typeof(string));
+                            fleetTable.Columns.Add("SunRoof", typeof(string));
+                            fleetTable.Columns.Add("DailyRate", typeof(string));
+                            fleetTable.Columns.Add("Colour", typeof(string));
+                            
+                            for (int i = 0; i < fleets.Count; i++)
+                            {
+                                fleetRow = fleetTable.NewRow(); // have new row on each iteration
+                                fleetRow["Registration"] = fleets[i].Registration;
+                                fleetRow["Grade"] = fleets[i].Grade;
+                                fleetRow["Make"] = fleets[i].Make;
+                                fleetRow["Model"] = fleets[i].Model;
+                                fleetRow["Year"] = fleets[i].Year;
+                                fleetRow["NumSeats"] = fleets[i].NumSeats;
+                                fleetRow["Transmission"] = fleets[i].Transmission;
+                                fleetRow["Fuel"] = fleets[i].Fuel;
+                                fleetRow["GPS"] = fleets[i].GPS;
+                                fleetRow["SunRoof"] = fleets[i].SunRoof;
+                                fleetRow["DailyRate"] = fleets[i].DailyRate;
+                                fleetRow["Colour"] = fleets[i].Colour;
 
+
+                                fleetTable.Rows.Add(fleetRow);
+                            }
+                            fleetTable.Print();
+                        }
+                        else if (fleetInput.Key == ConsoleKey.B)
+                        {
+                          
+                        }
+                        else if (fleetInput.Key == ConsoleKey.C)
+                        {
+
+                        }
+                        else if (fleetInput.Key == ConsoleKey.D)
+                        {
+
+                        }
+                        else if (fleetInput.Key == ConsoleKey.Backspace)
+                        {
+
+                        }
+                        else if (fleetInput.Key == ConsoleKey.Escape)
+                        {
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nInvalid Input!");
+                        }
+
+                    }
                 }
                 else if (mainInput.Key == ConsoleKey.C)
                 {
@@ -317,7 +394,7 @@ namespace MRRC
                 {
                     //Do nothing
                 }
-                else 
+                else
                 {
                     Console.WriteLine("\nInvalid Input!");
                 }
