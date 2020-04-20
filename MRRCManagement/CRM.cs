@@ -12,9 +12,9 @@ namespace MRRCManagement
         //Kevin Gunawan, n9812482
         //all needed variables defined 
         List<Customer> customersCollection = new List<Customer>();
-        List<Fleet> fleetCollection = new List<Fleet>();
+      
         private string crmFile = @"..\..\..\Data\customer.csv";
-        private string fleetFile = @"..\..\..\Data\fleet.csv";
+        
 
         //CRM constructor that checks whether there are any customer.csv file. If there are none, a new empty csv file is created. Otherwise, data
         //from file is loaded into the list.
@@ -25,14 +25,10 @@ namespace MRRCManagement
             {
                 File.Create(crmFile);
             }
-            else if (!File.Exists(fleetFile))
-            {
-                File.Create(fleetFile);
-            }
             else
             {
                 LoadFromFile();
-                LoadFromFleetFile();
+               
             }
         }
 
@@ -71,40 +67,14 @@ namespace MRRCManagement
                 customersCollection.Add(new Customer(id, heading, first, last, sex, dob));
             }
         }
-        public void LoadFromFleetFile()
-        {
-            fleetCollection.Clear();
-            string[] clients = File.ReadAllLines(fleetFile);
-            for (int i = 1; i < clients.Length; i++)
-            {
-                string[] subset = clients[i].Split(',');
-                string Registration = subset[0];
-                string Grade = subset[1];
-                string Make = subset[2];
-                string Model = subset[3];
-                int Year = int.Parse(subset[4]);
-                int NumSeats =int.Parse(subset[5]);
-                string Transmission = subset[6];
-                string Fuel = subset[7];
-                bool GPS = bool.Parse(subset[8]);
-                bool SunRoof = bool.Parse(subset[9]);
-                float DailyRate = float.Parse(subset[10]);
-                string Colour = subset[11];
-
-                fleetCollection.Add(new Fleet(Registration, Grade, Make, Model, Year, NumSeats, Transmission, Fuel, GPS, SunRoof, DailyRate, Colour));
-            }
-        }
+       
         //returning the list of current customersCollection
         //Kevin Gunawan, n9812482
         public List<Customer> GetCustomers()
         {
             return customersCollection;
         }
-        public List<Fleet> GetFleets()
-        {
-            return fleetCollection;
-
-        }
+       
         //wrting the customer objects in the customersCollection list into the customer.csv file
         //Kevin Gunawan, n9812482
         public void SaveToFile()
@@ -150,50 +120,50 @@ namespace MRRCManagement
         // This method removes the customer from the CRM if they are not currently renting a vehicele.
         // However, for this remove we need all of the customers information in order to delete them.
         //Kirsten Moylan, n9948210
-        public bool RemoveCustomer(Customer customer, Fleet fleet)
-        {
-            if (fleet.IsRenting(customer.CustomerID))
-            {
-                return false;
-            }
-            else
-            {
-                foreach (var item in customersCollection.ToList())
-                {
-                    if (item.CustomerID == customer.CustomerID)
-                    {
-                        customersCollection.Remove(item);
-                    }
-                }
-                return true;
+        //public bool RemoveCustomer(Customer customer, Fleet fleet)
+        //{
+        //    if (fleet.IsRenting(customer.CustomerID))
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        foreach (var item in customersCollection.ToList())
+        //        {
+        //            if (item.CustomerID == customer.CustomerID)
+        //            {
+        //                customersCollection.Remove(item);
+        //            }
+        //        }
+        //        return true;
 
 
-            }
-        }
+        //    }
+        //}
         //This method removes the customer from the CRM if they are not currently renting a
         //vehicle.It returns true if the removal was successful, otherwise it returns false. Remove based on customer ID.
         //Kirsten Moylan, n9948210
 
-        public bool RemoveCustomer(int customerID, Fleet fleet)
-        {
+        //public bool RemoveCustomer(int customerID, Fleet fleet)
+        //{
 
-            if (fleet.IsRenting(customerID))
-            {
-                return false;
+        //    if (fleet.IsRenting(customerID))
+        //    {
+        //        return false;
 
-            }
-            else
-            {
-                foreach (var item in customersCollection.ToList())
-                {
-                    if (item.CustomerID == customerID)
-                    {
-                        customersCollection.Remove(item);
-                    }
-                }
-                return true;
-            }
-        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var item in customersCollection.ToList())
+        //        {
+        //            if (item.CustomerID == customerID)
+        //            {
+        //                customersCollection.Remove(item);
+        //            }
+        //        }
+        //        return true;
+        //    }
+        //}
 
         //It is temporary function written for part A only in which renting is not included. 
         public bool RemoveCustomer(int customerID)

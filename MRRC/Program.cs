@@ -13,7 +13,7 @@ namespace MRRC
     {
         static void Main(string[] args)
         {
-            CRM crm = new CRM();
+            
             Console.WriteLine("\n### Mates-Rates Rent-a-Car Operation Menu ###\n");
             Console.WriteLine("You may press the ESC key at any menu to exit. Press the BACKSPACE key to return to the previous menu.");
             while (true)
@@ -29,9 +29,10 @@ namespace MRRC
                 Console.WriteLine();
                 if (mainInput.Key == ConsoleKey.A)
                 {
+                    CRM crm = new CRM();
                     while (true)
                     {
-                      
+
                         ConsoleKeyInfo customerInput;
                         Console.WriteLine("\nPlease enter a character from the options below:\n");
                         Console.WriteLine("a) Display Customers");
@@ -77,6 +78,7 @@ namespace MRRC
                         }
                         else if (customerInput.Key == ConsoleKey.B)
                         {
+                           
                             while (true)
                             {
                                 Customer customer;
@@ -304,6 +306,7 @@ namespace MRRC
                 }
                 else if (mainInput.Key == ConsoleKey.B)
                 {
+                    Fleet fleet = new Fleet();
                     while (true)
                     {
                         Console.WriteLine("\nPlease enter a number from the option below:\n");
@@ -317,7 +320,7 @@ namespace MRRC
                         if (fleetInput.Key == ConsoleKey.A)
                         {
                             Console.WriteLine();
-                            List<Fleet> fleets = crm.GetFleets();
+                            List<Vehicle> vehicles = fleet.GetFleets();
                             var fleetTable = new DataTable();
                             DataRow fleetRow = null;
                             fleetTable.TableName = "Fleet";
@@ -333,22 +336,22 @@ namespace MRRC
                             fleetTable.Columns.Add("SunRoof", typeof(string));
                             fleetTable.Columns.Add("DailyRate", typeof(string));
                             fleetTable.Columns.Add("Colour", typeof(string));
-                            
-                            for (int i = 0; i < fleets.Count; i++)
+
+                            for (int i = 0; i < vehicles.Count; i++)
                             {
                                 fleetRow = fleetTable.NewRow(); // have new row on each iteration
-                                fleetRow["Registration"] = fleets[i].Registration;
-                                fleetRow["Grade"] = fleets[i].Grade;
-                                fleetRow["Make"] = fleets[i].Make;
-                                fleetRow["Model"] = fleets[i].Model;
-                                fleetRow["Year"] = fleets[i].Year;
-                                fleetRow["NumSeats"] = fleets[i].NumSeats;
-                                fleetRow["Transmission"] = fleets[i].Transmission;
-                                fleetRow["Fuel"] = fleets[i].Fuel;
-                                fleetRow["GPS"] = fleets[i].GPS;
-                                fleetRow["SunRoof"] = fleets[i].SunRoof;
-                                fleetRow["DailyRate"] = fleets[i].DailyRate;
-                                fleetRow["Colour"] = fleets[i].Colour;
+                                fleetRow["Registration"] = vehicles[i].Registration;
+                                fleetRow["Grade"] = vehicles[i].Grade;
+                                fleetRow["Make"] = vehicles[i].Make;
+                                fleetRow["Model"] = vehicles[i].Model;
+                                fleetRow["Year"] = vehicles[i].Year;
+                                fleetRow["NumSeats"] = vehicles[i].NumSeats;
+                                fleetRow["Transmission"] = vehicles[i].Transmission;
+                                fleetRow["Fuel"] = vehicles[i].Fuel;
+                                fleetRow["GPS"] = vehicles[i].GPS;
+                                fleetRow["SunRoof"] = vehicles[i].SunRoof;
+                                fleetRow["DailyRate"] = vehicles[i].DailyRate;
+                                fleetRow["Colour"] = vehicles[i].Colour;
 
 
                                 fleetTable.Rows.Add(fleetRow);
@@ -357,7 +360,92 @@ namespace MRRC
                         }
                         else if (fleetInput.Key == ConsoleKey.B)
                         {
-                          
+
+                            while (true)
+                            {
+                                //declare Identifier
+                                Vehicle vehicle;
+                                string Registration, Grade, Make, Model, Transmission, Fuel, Colour;
+                                int Year, NumSeats;
+                                bool GPS, SunRoof;
+                                float DailyRate;
+                                Console.WriteLine("\nEnter Registration No : ");
+                                Registration = Console.ReadLine();
+                                Console.WriteLine("Enter Grade : ");
+                                Grade = Console.ReadLine();
+                                Console.WriteLine("Enter Make : ");
+                                Make = Console.ReadLine();
+                                Console.WriteLine("Enter Model : ");
+                                Model = Console.ReadLine();
+                                Console.WriteLine("Enter Year : ");
+                                //validate Year
+                                while (!int.TryParse(Console.ReadLine(), out Year))
+                                {
+                                    Console.WriteLine("Enter Valid Year");
+                                }
+                                Console.WriteLine("Enter Number Of Seats : ");
+                                //validate NumSeats
+                                while (!int.TryParse(Console.ReadLine(), out NumSeats))
+                                {
+                                    Console.WriteLine("Enter Valid Number Of Seats");
+                                }
+                                Console.WriteLine("Enter Transmission Type(Automatic/Manual)");
+                                Transmission = Console.ReadLine();
+                                //validate trasmission
+                                while (Transmission.ToUpper() != "AUTOMATIC" && Transmission.ToUpper() != "MANUAL")
+                                {
+                                    Console.WriteLine("Please Enter Valid Transmission Type(Automatic/Manual)");
+                                    Transmission = Console.ReadLine();
+                                }
+                                Console.WriteLine("Enter Fuel Type (Petrol/Disel)");
+                                Fuel = Console.ReadLine();
+                                //validate trasmission
+                                while (Fuel.ToUpper() != "PETROL" && Fuel.ToUpper() != "DISEL")
+                                {
+                                    Console.WriteLine("Please Enter Valid Fuel Type (Petrol/Disel)");
+                                    Fuel = Console.ReadLine();
+                                }
+                                Console.WriteLine("GPS (T/F)");
+                                string temp = Console.ReadLine();
+                                while (temp.ToUpper() != "T" && temp.ToUpper() != "F")
+                                {
+                                    Console.WriteLine("Please Enter T or F for GPS");
+                                    temp = Console.ReadLine();
+                                }
+                                //assign value to GPS bool variable
+                                if (temp.ToUpper() == "T")
+                                {
+                                    GPS = true;
+                                }
+                                else GPS = false;
+                                //Sunroof
+                                Console.WriteLine("Sun Roof (T/F)");
+                                temp = Console.ReadLine();
+                                while (temp.ToUpper() != "T" && temp.ToUpper() != "F")
+                                {
+                                    Console.WriteLine("Please Enter T or F for Sun Roof");
+                                    temp = Console.ReadLine();
+                                }
+                                //assign value to GPS bool variable
+                                if (temp.ToUpper() == "T")
+                                {
+                                    SunRoof = true;
+                                }
+                                else SunRoof = false;
+                                //Daily Rate Validation 
+                                Console.WriteLine("Please Enter Daily Rate : ");
+                                while (!float.TryParse(Console.ReadLine(), out DailyRate))
+                                {
+                                    Console.WriteLine("Enter Valid Daily Rate");
+                                }
+                                Console.WriteLine("Enter Color : ");
+                                Colour = Console.ReadLine();
+                                vehicle = new Vehicle(Registration, Grade, Make, Model, Year, NumSeats, Transmission, Fuel, GPS, SunRoof, DailyRate, Colour);
+                                fleet.AddVehicle(vehicle);
+                                fleet.SaveToFile();
+                                //Console.WriteLine("Successfully created new customer '" + ID + " - " + title + " " + firstName + " " + lastName + "' and added to customer list.");
+                                break;
+                            }
                         }
                         else if (fleetInput.Key == ConsoleKey.C)
                         {
@@ -365,7 +453,18 @@ namespace MRRC
                         }
                         else if (fleetInput.Key == ConsoleKey.D)
                         {
-
+                            string RegistrationNo;
+                            Console.WriteLine("\nPlease Enter Registration No To Delete :\n");
+                            Console.Write("Registration No: ");
+                            RegistrationNo = Console.ReadLine();
+                            while (!Regex.IsMatch(RegistrationNo, @"^\d+$"))
+                            {
+                                Console.WriteLine("\nInvalid Input!\n");
+                                Console.Write("ID: ");
+                                RegistrationNo = Console.ReadLine();
+                            }
+                            fleet.RemoveVehicle((RegistrationNo));
+                            fleet.SaveToFile();
                         }
                         else if (fleetInput.Key == ConsoleKey.Backspace)
                         {
