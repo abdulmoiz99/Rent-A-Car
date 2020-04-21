@@ -9,7 +9,7 @@ namespace MRRCManagement
 {
     public class CRM
     {
-        //Kevin Gunawan, n9812482
+
         //all needed variables defined 
         List<Customer> customersCollection = new List<Customer>();
       
@@ -18,7 +18,7 @@ namespace MRRCManagement
 
         //CRM constructor that checks whether there are any customer.csv file. If there are none, a new empty csv file is created. Otherwise, data
         //from file is loaded into the list.
-        //Kevin Gunawan, n9812482
+
         public CRM()
         {
             if (!File.Exists(crmFile))
@@ -42,7 +42,7 @@ namespace MRRCManagement
         }
 
         //reading from csv file and putting the customer objects into a list customersCollection
-        //Kevin Gunawan, n9812482
+
         public void LoadFromFile()
         {
             customersCollection.Clear();
@@ -69,14 +69,14 @@ namespace MRRCManagement
         }
        
         //returning the list of current customersCollection
-        //Kevin Gunawan, n9812482
+
         public List<Customer> GetCustomers()
         {
             return customersCollection;
         }
        
         //wrting the customer objects in the customersCollection list into the customer.csv file
-        //Kevin Gunawan, n9812482
+
         public void SaveToFile()
         {
             var csv = new StringBuilder();
@@ -91,7 +91,7 @@ namespace MRRCManagement
         }
         //adds the provided customer into the customersCollection list if the customerID doesn't exist in the CSV. Returns
         //true upon successful addition and false otherwise.
-        //Kevin Gunawan, n9812482
+
 
         public bool AddCustomer(Customer customer)
         {
@@ -119,7 +119,7 @@ namespace MRRCManagement
 
         // This method removes the customer from the CRM if they are not currently renting a vehicele.
         // However, for this remove we need all of the customers information in order to delete them.
-        //Kirsten Moylan, n9948210
+
         //public bool RemoveCustomer(Customer customer, Fleet fleet)
         //{
         //    if (fleet.IsRenting(customer.CustomerID))
