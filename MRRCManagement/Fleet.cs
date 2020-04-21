@@ -151,6 +151,39 @@ namespace MRRCManagement
             File.WriteAllText(fleetFile, motors.ToString());
 
         }
+        public bool CheckRegitration(string Registration)
+        {
+            foreach (var item in vehicleCollection.ToList())
+            {
+                if (item.Registration == Registration)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool ModifyRecord(string Registration,string Grade, string Make, string Model, int Year, int  NumSeats, string Transmission, string Fuel,bool GPS, bool SunRoof, float DailyRate,string Colour)
+        {
+            foreach (var item in vehicleCollection.ToList())
+            {
+                if (item.Registration == Registration)
+                {
+                    item.Registration = Registration;
+                    item.Grade = Grade;
+                    item.Make = Make;
+                    item.Model = Model;
+                    item.Year = Year;
+                    item.NumSeats = NumSeats;
+                    item.Transmission = Transmission;
+                    item.Fuel = Fuel;
+                    item.GPS = GPS;
+                    item.SunRoof = SunRoof;
+                    item.DailyRate = DailyRate;
+                    item.Colour = Colour;
+                }
+            }
+            return false;
+        }
         // this method returns a CSV of vehicles in the data file. Kirsten Moylan, n9948210
 
         //This method adds a whole vehicle to the Vehicle collection List, 
