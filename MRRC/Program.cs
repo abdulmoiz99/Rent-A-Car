@@ -363,82 +363,93 @@ namespace MRRC
 
                             while (true)
                             {
-                                //declare Identifier
-                                Vehicle vehicle;
-                                string Registration, Grade, Make, Model, Transmission, Fuel, Colour;
-                                int Year, NumSeats;
-                                bool GPS, SunRoof;
-                                float DailyRate;
-                                Console.WriteLine("\nEnter Registration No : ");
-                                Registration = Console.ReadLine();
-                                //check is registration already exist or not
-                                while (true)
-                                {
-                                    if (fleet.CheckRegitration(Registration))
+                                    //declare Identifier
+                                    Vehicle vehicle;
+                                    string Registration, Grade, Make, Model, Transmission, Fuel, Colour;
+                                    int Year, NumSeats;
+                                    bool GPS, SunRoof;
+                                    float DailyRate;
+                                    Console.Write("\nEnter Registration No : ");
+                                    Registration = Console.ReadLine();
+                                    //check is registration already exist or not
+                                    while (true)
                                     {
-                                        Console.WriteLine("Registration No Already Exist! Please Enter A Unique Registration No : ");
+                                        if (fleet.CheckRegitration(Registration))
+                                    {
+                                        Console.WriteLine("\nRegistration No Already Exist! Please Enter A Unique Registration No : ");
+                                        Console.Write("\nEnter Registration No : ");
                                         Registration = Console.ReadLine();
                                     }
                                     else if (Registration.Length != 6)
                                     {
-                                        Console.WriteLine("Registration Number Must Contains 7 Character");
+                                        Console.WriteLine("\nRegistration Number Must Contains 6 Character");
+                                        Console.Write("Enter Registration No : ");
                                         Registration = Console.ReadLine();
                                     }
                                     else break;
                                 }
-                                Console.WriteLine("Enter Grade : ");
+                                Console.Write("Enter Grade : ");
                                 Grade = Console.ReadLine();
                                 //validate Grade
                                 while (!Regex.IsMatch(Grade, @"^[a-zA-Z]+$"))
                                 {
                                     Console.WriteLine("\nInvalid Input!\n");
-                                    Console.WriteLine("Enter Grade : ");
+                                    Console.Write("Enter Grade : ");
                                     Grade = Console.ReadLine();
                                 }
-                                Console.WriteLine("Enter Make : ");
+                                Console.Write("Enter Make : ");
                                 Make = Console.ReadLine();
                                 //validate Make
                                 while (!Regex.IsMatch(Grade, @"^[a-zA-Z]+$"))
                                 {
                                     Console.WriteLine("\nInvalid Input!\n");
-                                    Console.WriteLine("Enter Make : ");
+                                    Console.Write("Enter Make : ");
                                     Make = Console.ReadLine();
                                 }
-                                Console.WriteLine("Enter Model : ");
+                                Console.Write("Enter Model : ");
                                 Model = Console.ReadLine();
-                                Console.WriteLine("Enter Year : ");
+                                Console.Write("Enter Year : ");
                                 //validate Year
                                 while (!int.TryParse(Console.ReadLine(), out Year))
                                 {
-                                    Console.WriteLine("Enter Valid Year");
+                                    Console.WriteLine("\nEnter Valid Year");
+                                    Console.Write("Enter Year : ");
                                 }
-                                Console.WriteLine("Enter Number Of Seats : ");
+                                Console.Write("Enter Number Of Seats : ");
                                 //validate NumSeats
                                 while (!int.TryParse(Console.ReadLine(), out NumSeats))
                                 {
-                                    Console.WriteLine("Enter Valid Number Of Seats");
+                                    Console.WriteLine("\nEnter Valid Number Of Seats");
+                                    Console.Write("Enter Number Of Seats : ");
                                 }
-                                Console.WriteLine("Enter Transmission Type(Automatic/Manual)");
+                                Console.Write("Enter Transmission Type(Automatic/Manual) :");
                                 Transmission = Console.ReadLine();
+                                Transmission.Trim();
                                 //validate trasmission
                                 while (Transmission.ToUpper() != "AUTOMATIC" && Transmission.ToUpper() != "MANUAL")
                                 {
-                                    Console.WriteLine("Please Enter Valid Transmission Type(Automatic/Manual)");
+                                    Console.WriteLine("\nPlease Enter Valid Transmission Type(Automatic/Manual)");
+                                    Console.Write("Enter Transmission Type(Automatic/Manual) :");
                                     Transmission = Console.ReadLine();
+                                    Transmission.Trim();
                                 }
-                                Console.WriteLine("Enter Fuel Type (Petrol/Disel)");
+                                Console.Write("Enter Fuel Type (Petrol/Disel) : ");
                                 Fuel = Console.ReadLine();
+                                Fuel.Trim();
                                 //validate trasmission
                                 while (Fuel.ToUpper() != "PETROL" && Fuel.ToUpper() != "DISEL")
                                 {
-                                    Console.WriteLine("Please Enter Valid Fuel Type (Petrol/Disel)");
+                                    Console.WriteLine("\nPlease Enter Valid Fuel Type (Petrol/Disel)");
+                                    Console.Write("Enter Fuel Type (Petrol/Disel) : ");
                                     Fuel = Console.ReadLine();
+                                    Fuel.Trim();
                                 }
-                                Console.WriteLine("GPS (T/F)");
+                                Console.Write("GPS (T/F) :");
                                 string temp = Console.ReadLine();
                                 while (temp.ToUpper() != "T" && temp.ToUpper() != "F")
                                 {
-                                    Console.WriteLine("Please Enter T or F for GPS");
+                                    Console.WriteLine("\nPlease Enter T or F for GPS");
+                                    Console.Write("GPS (T/F) :");
                                     temp = Console.ReadLine();
                                 }
                                 //assign value to GPS bool variable
@@ -448,11 +459,12 @@ namespace MRRC
                                 }
                                 else GPS = false;
                                 //Sunroof
-                                Console.WriteLine("Sun Roof (T/F)");
+                                Console.Write("Sun Roof (T/F): ");
                                 temp = Console.ReadLine();
                                 while (temp.ToUpper() != "T" && temp.ToUpper() != "F")
                                 {
-                                    Console.WriteLine("Please Enter T or F for Sun Roof");
+                                    Console.WriteLine("\nPlease Enter T or F for Sun Roof");
+                                    Console.Write("Sun Roof (T/F): ");
                                     temp = Console.ReadLine();
                                 }
                                 //assign value to GPS bool variable
@@ -462,17 +474,18 @@ namespace MRRC
                                 }
                                 else SunRoof = false;
                                 //Daily Rate Validation 
-                                Console.WriteLine("Please Enter Daily Rate : ");
+                                Console.Write("Please Enter Daily Rate : ");
                                 while (!float.TryParse(Console.ReadLine(), out DailyRate))
                                 {
-                                    Console.WriteLine("Enter Valid Daily Rate");
+                                    Console.WriteLine("\nEnter Valid Daily Rate");
+                                    Console.Write("Please Enter Daily Rate : ");
                                 }
-                                Console.WriteLine("Enter Color : ");
+                                Console.Write("Enter Color : ");
                                 Colour = Console.ReadLine();
                                 vehicle = new Vehicle(Registration, Grade, Make, Model, Year, NumSeats, Transmission, Fuel, GPS, SunRoof, DailyRate, Colour);
                                 fleet.AddVehicle(vehicle);
                                 fleet.SaveToFile();
-                                //Console.WriteLine("Successfully created new customer '" + ID + " - " + title + " " + firstName + " " + lastName + "' and added to customer list.");
+                                Console.WriteLine("Record Saved Successfully");
                                 break;
                             }
                         }
@@ -486,79 +499,87 @@ namespace MRRC
                                 int Year, NumSeats;
                                 bool GPS, SunRoof;
                                 float DailyRate;
-                                Console.WriteLine("\nModify Fleet");
-                                Console.WriteLine("\nEnter Registration No : ");
+                                Console.Write("\nEnter Registration No : ");
                                 Registration = Console.ReadLine();
                                 //check is registration already exist or not
                                 while (true)
                                 {
-                                    if (!fleet.CheckRegitration(Registration))
+                                    if (fleet.CheckRegitration(Registration))
                                     {
-                                        Console.WriteLine("no Match Found");
-                                        Console.WriteLine("Enter Registration No : ");
+                                        Console.WriteLine("Registration No Already Exist! Please Enter A Unique Registration No : ");
+                                        Console.Write("\nEnter Registration No : ");
                                         Registration = Console.ReadLine();
                                     }
                                     else if (Registration.Length != 6)
                                     {
-                                        Console.WriteLine("Registration Number Must Contains 7 Character");
-                                        Console.WriteLine("Enter Registration No : ");
+                                        Console.WriteLine("Registration Number Must Contains 6 Character");
+                                        Console.Write("\nEnter Registration No : ");
                                         Registration = Console.ReadLine();
                                     }
                                     else break;
                                 }
-                                Console.WriteLine("Enter Grade : ");
+                                Console.Write("Enter Grade : ");
                                 Grade = Console.ReadLine();
                                 //validate Grade
                                 while (!Regex.IsMatch(Grade, @"^[a-zA-Z]+$"))
                                 {
                                     Console.WriteLine("\nInvalid Input!\n");
-                                    Console.WriteLine("Enter Grade : ");
+                                    Console.Write("Enter Grade : ");
                                     Grade = Console.ReadLine();
                                 }
-                                Console.WriteLine("Enter Make : ");
+                                Console.Write("Enter Make : ");
                                 Make = Console.ReadLine();
                                 //validate Make
                                 while (!Regex.IsMatch(Grade, @"^[a-zA-Z]+$"))
                                 {
                                     Console.WriteLine("\nInvalid Input!\n");
-                                    Console.WriteLine("Enter Make : ");
+                                    Console.Write("Enter Make : ");
                                     Make = Console.ReadLine();
                                 }
-                                Console.WriteLine("Enter Model : ");
+                                Console.Write("Enter Model : ");
                                 Model = Console.ReadLine();
-                                Console.WriteLine("Enter Year : ");
+                                Console.Write("Enter Year : ");
                                 //validate Year
                                 while (!int.TryParse(Console.ReadLine(), out Year))
                                 {
-                                    Console.WriteLine("Enter Valid Year");
+                                    Console.WriteLine("\nEnter Valid Year");
+                                    Console.Write("Enter Year : ");
                                 }
-                                Console.WriteLine("Enter Number Of Seats : ");
+                                Console.Write("Enter Number Of Seats : ");
                                 //validate NumSeats
                                 while (!int.TryParse(Console.ReadLine(), out NumSeats))
                                 {
-                                    Console.WriteLine("Enter Valid Number Of Seats");
+                                    Console.WriteLine("\nEnter Valid Number Of Seats");
+                                    Console.Write("Enter Number Of Seats : ");
                                 }
-                                Console.WriteLine("Enter Transmission Type(Automatic/Manual)");
+                                Console.Write("Enter Transmission Type(Automatic/Manual) :");
                                 Transmission = Console.ReadLine();
+                                Transmission.Trim();
                                 //validate trasmission
                                 while (Transmission.ToUpper() != "AUTOMATIC" && Transmission.ToUpper() != "MANUAL")
                                 {
-                                    Console.WriteLine("Please Enter Valid Transmission Type(Automatic/Manual)");
+                                    Console.WriteLine("\nPlease Enter Valid Transmission Type(Automatic/Manual)");
+                                    Console.Write("Enter Transmission Type(Automatic/Manual) :");
                                     Transmission = Console.ReadLine();
+                                    Transmission.Trim();
                                 }
-                                Console.WriteLine("Enter Fuel Type (Petrol/Disel)");
+                                Console.Write("Enter Fuel Type (Petrol/Disel) : ");
                                 Fuel = Console.ReadLine();
                                 //validate trasmission
+                                Fuel.Trim();
                                 while (Fuel.ToUpper() != "PETROL" && Fuel.ToUpper() != "DISEL")
                                 {
-                                    Console.WriteLine("Please Enter Valid Fuel Type (Petrol/Disel)");
+                                    Console.WriteLine("\nPlease Enter Valid Fuel Type (Petrol/Disel)");
+                                    Console.Write("Enter Fuel Type (Petrol/Disel) : ");
                                     Fuel = Console.ReadLine();
+                                    Fuel.Trim();
                                 }
-                                Console.WriteLine("GPS (T/F)");
+                                Console.Write("GPS (T/F) :");
                                 string temp = Console.ReadLine();
                                 while (temp.ToUpper() != "T" && temp.ToUpper() != "F")
                                 {
-                                    Console.WriteLine("Please Enter T or F for GPS");
+                                    Console.WriteLine("\nPlease Enter T or F for GPS");
+                                    Console.Write("GPS (T/F) :");
                                     temp = Console.ReadLine();
                                 }
                                 //assign value to GPS bool variable
@@ -568,11 +589,12 @@ namespace MRRC
                                 }
                                 else GPS = false;
                                 //Sunroof
-                                Console.WriteLine("Sun Roof (T/F)");
+                                Console.Write("Sun Roof (T/F): ");
                                 temp = Console.ReadLine();
                                 while (temp.ToUpper() != "T" && temp.ToUpper() != "F")
                                 {
-                                    Console.WriteLine("Please Enter T or F for Sun Roof");
+                                    Console.WriteLine("\nPlease Enter T or F for Sun Roof");
+                                    Console.Write("Sun Roof (T/F): ");
                                     temp = Console.ReadLine();
                                 }
                                 //assign value to GPS bool variable
@@ -582,12 +604,13 @@ namespace MRRC
                                 }
                                 else SunRoof = false;
                                 //Daily Rate Validation 
-                                Console.WriteLine("Please Enter Daily Rate : ");
+                                Console.Write("Please Enter Daily Rate : ");
                                 while (!float.TryParse(Console.ReadLine(), out DailyRate))
                                 {
-                                    Console.WriteLine("Enter Valid Daily Rate");
+                                    Console.WriteLine("\nEnter Valid Daily Rate");
+                                    Console.Write("Please Enter Daily Rate : ");
                                 }
-                                Console.WriteLine("Enter Color : ");
+                                Console.Write("Enter Color : ");
                                 Colour = Console.ReadLine();
                                 fleet.ModifyRecord(Registration, Grade, Make, Model, Year, NumSeats, Transmission, Fuel, GPS, SunRoof, DailyRate, Colour);
                                 fleet.SaveToFile();
@@ -617,7 +640,9 @@ namespace MRRC
                                 }
                                 else break;
                             }
+                           
                             fleet.RemoveVehicle((RegistrationNo));
+                            Console.WriteLine("Record Removed Successfully");
                             fleet.SaveToFile();
                         }
                         else if (fleetInput.Key == ConsoleKey.Backspace)
