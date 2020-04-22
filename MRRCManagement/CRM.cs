@@ -142,7 +142,6 @@ namespace MRRCManagement
         //}
         //This method removes the customer from the CRM if they are not currently renting a
         //vehicle.It returns true if the removal was successful, otherwise it returns false. Remove based on customer ID.
-        //Kirsten Moylan, n9948210
 
         //public bool RemoveCustomer(int customerID, Fleet fleet)
         //{

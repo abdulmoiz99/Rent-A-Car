@@ -13,7 +13,8 @@ namespace MRRC
     {
         static void Main(string[] args)
         {
-
+            CRM crm = new CRM();
+            Fleet fleet = new Fleet();
             Console.WriteLine("\n### Mates-Rates Rent-a-Car Operation Menu ###\n");
             Console.WriteLine("You may press the ESC key at any menu to exit. Press the BACKSPACE key to return to the previous menu.");
             while (true)
@@ -29,10 +30,8 @@ namespace MRRC
                 Console.WriteLine();
                 if (mainInput.Key == ConsoleKey.A)
                 {
-                    CRM crm = new CRM();
                     while (true)
                     {
-
                         ConsoleKeyInfo customerInput;
                         Console.WriteLine("\nPlease enter a character from the options below:\n");
                         Console.WriteLine("a) Display Customers");
@@ -234,7 +233,6 @@ namespace MRRC
                                             gender = gender.ToLower();
                                         }
                                         crm.ModifyCustomer(Convert.ToInt32(ID), 4, gender);
-                                        crm.SaveToFile();
                                         Console.WriteLine("\nID " + ID + " is successfully modified.");
                                         break;
                                     }
@@ -258,6 +256,8 @@ namespace MRRC
                                     }
                                     else if (modifyCustomerInput.Key == ConsoleKey.Escape)
                                     {
+                                        crm.SaveToFile();
+                                        fleet.SaveToFile();
                                         Environment.Exit(0);
                                     }
                                     else if (modifyCustomerInput.Key == ConsoleKey.Backspace)
@@ -288,7 +288,7 @@ namespace MRRC
                                 ID = Console.ReadLine();
                             }
                             crm.RemoveCustomer(Convert.ToInt32(ID));
-                            crm.SaveToFile();
+                            Console.WriteLine("Successfully deleted customer " + ID + ".");
                         }
                         else if (customerInput.Key == ConsoleKey.Backspace)
                         {
@@ -296,6 +296,8 @@ namespace MRRC
                         }
                         else if (customerInput.Key == ConsoleKey.Escape)
                         {
+                            crm.SaveToFile();
+                            fleet.SaveToFile();
                             Environment.Exit(0);
                         }
                         else
@@ -306,7 +308,6 @@ namespace MRRC
                 }
                 else if (mainInput.Key == ConsoleKey.B)
                 {
-                    Fleet fleet = new Fleet();
                     while (true)
                     {
                         Console.WriteLine("\nPlease enter a number from the option below:\n");
@@ -484,7 +485,6 @@ namespace MRRC
                                 Colour = Console.ReadLine();
                                 vehicle = new Vehicle(Registration, Grade, Make, Model, Year, NumSeats, Transmission, Fuel, GPS, SunRoof, DailyRate, Colour);
                                 fleet.AddVehicle(vehicle);
-                                fleet.SaveToFile();
                                 Console.WriteLine("Record Saved Successfully");
                                 break;
                             }
@@ -613,7 +613,6 @@ namespace MRRC
                                 Console.Write("Enter Color : ");
                                 Colour = Console.ReadLine();
                                 fleet.ModifyRecord(Registration, Grade, Make, Model, Year, NumSeats, Transmission, Fuel, GPS, SunRoof, DailyRate, Colour);
-                                fleet.SaveToFile();
                                 Console.WriteLine("Record Modify Successfully");
                                 break;
                             }
@@ -643,7 +642,6 @@ namespace MRRC
                            
                             fleet.RemoveVehicle((RegistrationNo));
                             Console.WriteLine("Record Removed Successfully");
-                            fleet.SaveToFile();
                         }
                         else if (fleetInput.Key == ConsoleKey.Backspace)
                         {
@@ -651,6 +649,8 @@ namespace MRRC
                         }
                         else if (fleetInput.Key == ConsoleKey.Escape)
                         {
+                            crm.SaveToFile();
+                            fleet.SaveToFile();
                             Environment.Exit(0);
                         }
                         else
@@ -666,6 +666,8 @@ namespace MRRC
                 }
                 else if (mainInput.Key == ConsoleKey.Escape)
                 {
+                    crm.SaveToFile();
+                    fleet.SaveToFile();
                     Environment.Exit(0);
                 }
                 else if (mainInput.Key == ConsoleKey.Backspace)
