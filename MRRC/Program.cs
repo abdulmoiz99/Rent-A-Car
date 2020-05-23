@@ -287,8 +287,14 @@ namespace MRRC
                                 Console.Write("ID: ");
                                 ID = Console.ReadLine();
                             }
-                            crm.RemoveCustomer(Convert.ToInt32(ID));
-                            Console.WriteLine("Successfully deleted customer " + ID + ".");
+                            if (crm.RemoveCustomer(Convert.ToInt32(ID), fleet))
+                            {
+                                Console.WriteLine("\nSuccessfully deleted customer " + ID + ".");
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nCustomer " + ID + " is renting and thus cannot be deleted.");
+                            }                                       
                         }
                         else if (customerInput.Key == ConsoleKey.Backspace)
                         {
@@ -314,7 +320,7 @@ namespace MRRC
                         Console.WriteLine("a) Display Fleet");
                         Console.WriteLine("b) New Vehicle");
                         Console.WriteLine("c) Modify Vehicle");
-                        Console.WriteLine("d) Delete  Vehicle\n");
+                        Console.WriteLine("d) Delete Vehicle\n");
                         Console.Write(">");
                         ConsoleKeyInfo fleetInput;
                         fleetInput = Console.ReadKey();
@@ -375,7 +381,7 @@ namespace MRRC
                                     //check is registration already exist or not
                                     while (true)
                                     {
-                                        if (fleet.CheckRegitration(Registration))
+                                        if (fleet.CheckRegistration(Registration))
                                     {
                                         Console.WriteLine("\nRegistration No Already Exist! Please Enter A Unique Registration No : ");
                                         Console.Write("\nEnter Registration No : ");
@@ -493,8 +499,6 @@ namespace MRRC
                         {
                             while (true)
                             {
-                                //declare Identifier
-                                Vehicle vehicle;
                                 string Registration, Grade, Make, Model, Transmission, Fuel, Colour;
                                 int Year, NumSeats;
                                 bool GPS, SunRoof;
@@ -504,7 +508,7 @@ namespace MRRC
                                 //check is registration already exist or not
                                 while (true)
                                 {
-                                    if (fleet.CheckRegitration(Registration))
+                                    if (fleet.CheckRegistration(Registration))
                                     {
                                         Console.WriteLine("Registration No Already Exist! Please Enter A Unique Registration No : ");
                                         Console.Write("\nEnter Registration No : ");
@@ -620,32 +624,37 @@ namespace MRRC
                         else if (fleetInput.Key == ConsoleKey.D)
                         {
                             string RegistrationNo;
-                            Console.WriteLine("\nPlease Enter Registration No To Delete :\n");
+                            Console.WriteLine("\nPlease Enter Registration No To Delete.\n");
                             Console.Write("Registration No: ");
                             RegistrationNo = Console.ReadLine();
                             while (true)
                             {
-                                if (fleet.CheckRegitration(RegistrationNo))
+                                if (!fleet.CheckRegistration(RegistrationNo))
                                 {
-                                    Console.WriteLine("Registration No Already Exist! Please Enter A Unique Registration No : ");
-                                    Console.Write("Registration No: ");
+                                    Console.WriteLine("\nRegistration No. not found! Please enter a valid Registration No.");
+                                    Console.Write("\nRegistration No: ");
                                     RegistrationNo = Console.ReadLine();
                                 }
                                 else if (RegistrationNo.Length != 6)
                                 {
-                                    Console.WriteLine("Registration Number Must Contains 7 Character");
-                                    Console.Write("Registration No: ");
+                                    Console.WriteLine("\nRegistration No. must contains 6 characters.");
+                                    Console.Write("\nRegistration No: ");
                                     RegistrationNo = Console.ReadLine();
                                 }
                                 else break;
                             }
-                           
-                            fleet.RemoveVehicle((RegistrationNo));
-                            Console.WriteLine("Record Removed Successfully");
+                            if (fleet.RemoveVehicle((RegistrationNo)))
+                            {
+                                Console.WriteLine("\nRecord Removed Successfully");
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nThis vehicle is currently rented.");
+                            }
                         }
                         else if (fleetInput.Key == ConsoleKey.Backspace)
                         {
-
+                            break;
                         }
                         else if (fleetInput.Key == ConsoleKey.Escape)
                         {
@@ -662,7 +671,115 @@ namespace MRRC
                 }
                 else if (mainInput.Key == ConsoleKey.C)
                 {
+                    while (true) 
+                    {
+                        ConsoleKeyInfo rentalInput;
+                        Console.WriteLine("\nPlease enter a character from the options below:\n");
+                        Console.WriteLine("a) Display Rentals");
+                        Console.WriteLine("b) Search Vehicles");
+                        Console.WriteLine("c) Rent Vehicle");
+                        Console.WriteLine("d) Return Vehicle");
+                        Console.WriteLine();
+                        Console.Write(">");
+                        rentalInput = Console.ReadKey();
+                        Console.WriteLine();
+                        if (rentalInput.Key == ConsoleKey.A)
+                        {
+                            Console.WriteLine();
+                            Dictionary<string, int> rentals = fleet.GetRentals();
+                            DataTable rentalsTable = new DataTable();
+                            DataRow rentalsRow = null;
+                            rentalsTable.TableName = "Rentals";
+                            rentalsTable.Columns.Add("Registration", typeof(string));
+                            rentalsTable.Columns.Add("CustomerID", typeof(int)).AllowDBNull = false;
+                            foreach (string regNo in rentals.Keys)
+                            {
+                                rentalsRow = rentalsTable.NewRow(); // have new row on each iteration
+                                rentalsRow["Registration"] = regNo;
+                                rentalsRow["CustomerID"] = rentals[regNo];
+                                rentalsTable.Rows.Add(rentalsRow);
+                            }
+                            rentalsTable.Print();
+                        }
+                        else if (rentalInput.Key == ConsoleKey.B)
+                        {
 
+                        }
+                        else if (rentalInput.Key == ConsoleKey.C)
+                        {
+                            string regNo;
+                            string ID;
+                            Console.WriteLine("\nPlease enter the registration number of vehicle you want to rent:\n");
+                            Console.Write("Registration No.: ");
+                            regNo = Console.ReadLine();
+                            if (regNo.Length != 6)
+                            {
+                                Console.WriteLine("\nRegistration No. must contains 6 characters.");
+                            }
+                            else if (!fleet.CheckRegistration(regNo))
+                            {
+                                Console.WriteLine("\nRegistration number not found.");
+                            }
+                            else if (fleet.IsRented(regNo)) 
+                            {
+                                Console.WriteLine("\nVehicle " + regNo + " is already rented by customer " + fleet.RentedBy(regNo) + ".");
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nPlease enter the customer ID:\n");
+                                Console.Write("ID: ");
+                                ID = Console.ReadLine();
+                                while (!Regex.IsMatch(ID, @"^\d+$"))
+                                {
+                                    Console.WriteLine("\nInvalid Input!\n");
+                                    Console.Write("ID: ");
+                                    ID = Console.ReadLine();
+                                }
+                                if (crm.FindCustomer(Convert.ToInt32(ID)))
+                                {
+                                    fleet.RentCar(regNo, Convert.ToInt32(ID));
+                                    Console.WriteLine("\nVehicle " + regNo + " is successfully rented by customer " + ID + ".");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nCustomer ID not found.");
+                                }
+                            }
+                        }
+                        else if (rentalInput.Key == ConsoleKey.D)
+                        {
+                            string regNo;
+                            Console.WriteLine("\nPlease enter the registration number of rented vehicle:\n");
+                            Console.Write("Registration No.: ");
+                            regNo = Console.ReadLine();
+                            if (regNo.Length != 6)
+                            {
+                                Console.WriteLine("\nRegistration No. must contains 6 characters.");
+                            }
+                            else if (fleet.ReturnCar(regNo) != -1)
+                            {
+                                Console.WriteLine("\nVehicle " + regNo + " is successfully returned.");                           
+                            }                       
+                            else
+                            {
+                                Console.WriteLine("\nRegistration No. is not found in rentals.");
+                            }
+                        }
+                        else if (rentalInput.Key == ConsoleKey.Backspace)
+                        {
+                            break;
+                        }
+                        else if (rentalInput.Key == ConsoleKey.Escape)
+                        {
+                            crm.SaveToFile();
+                            fleet.SaveToFile();
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nInvalid Input!");
+                        }
+                    }               
                 }
                 else if (mainInput.Key == ConsoleKey.Escape)
                 {

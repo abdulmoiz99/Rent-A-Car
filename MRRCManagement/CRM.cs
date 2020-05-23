@@ -120,64 +120,48 @@ namespace MRRCManagement
         // This method removes the customer from the CRM if they are not currently renting a vehicele.
         // However, for this remove we need all of the customers information in order to delete them.
 
-        //public bool RemoveCustomer(Customer customer, Fleet fleet)
-        //{
-        //    if (fleet.IsRenting(customer.CustomerID))
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        foreach (var item in customersCollection.ToList())
-        //        {
-        //            if (item.CustomerID == customer.CustomerID)
-        //            {
-        //                customersCollection.Remove(item);
-        //            }
-        //        }
-        //        return true;
+        public bool RemoveCustomer(Customer customer, Fleet fleet)
+        {
+            if (fleet.IsRenting(customer.CustomerID))
+            {
+                return false;
+            }
+            else
+            {
+                foreach (var item in customersCollection.ToList())
+                {
+                    if (item.CustomerID == customer.CustomerID)
+                    {
+                        customersCollection.Remove(item);
+                    }
+                }
+                return true;
 
 
-        //    }
-        //}
+            }
+        }
         //This method removes the customer from the CRM if they are not currently renting a
         //vehicle.It returns true if the removal was successful, otherwise it returns false. Remove based on customer ID.
 
-        //public bool RemoveCustomer(int customerID, Fleet fleet)
-        //{
-
-        //    if (fleet.IsRenting(customerID))
-        //    {
-        //        return false;
-
-        //    }
-        //    else
-        //    {
-        //        foreach (var item in customersCollection.ToList())
-        //        {
-        //            if (item.CustomerID == customerID)
-        //            {
-        //                customersCollection.Remove(item);
-        //            }
-        //        }
-        //        return true;
-        //    }
-        //}
-
-        //It is temporary function written for part A only in which renting is not included. 
-        public bool RemoveCustomer(int customerID)
+        public bool RemoveCustomer(int customerID, Fleet fleet)
         {
-            foreach (var item in customersCollection.ToList())
+
+            if (fleet.IsRenting(customerID))
             {
-                if (item.CustomerID == customerID)
-                {
-                    customersCollection.Remove(item);
-                    Console.WriteLine("\nID " + customerID + " is successfully deleted.");
-                    return true;
-                }
+
+                return false;
             }
-            Console.WriteLine("\nID " + customerID + " is not found.");
-            return false;
+            else
+            {
+                foreach (var item in customersCollection.ToList())
+                {
+                    if (item.CustomerID == customerID)
+                    {
+                        customersCollection.Remove(item);
+                    }
+                }
+                return true;
+            }
         }
 
         public bool FindCustomer(int customerID)

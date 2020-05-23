@@ -10,7 +10,7 @@ namespace MRRCManagement
 {
     public class Fleet 
     {
-
+        private string rentalFile = @"..\..\..\Data\rentals.csv";
         private string fleetFile = @"..\..\..\Data\fleet.csv";
         Dictionary<string, int> rentals = new Dictionary<string, int>();
         List<Vehicle> vehicleCollection = new List<Vehicle>();
@@ -32,10 +32,16 @@ namespace MRRCManagement
             return vehicleCollection;
 
         }
+        public Dictionary<string, int> GetRentals()
+        {
+            return rentals;
+
+        }
         public void LoadFromFile()
         {
             vehicleCollection.Clear();
             string[] clients = File.ReadAllLines(fleetFile);
+            string[] booking = File.ReadAllLines(rentalFile);
             for (int i = 1; i < clients.Length; i++)
             {
                 string[] subset = clients[i].Split(',');
@@ -54,12 +60,19 @@ namespace MRRCManagement
 
                 vehicleCollection.Add(new Vehicle(Registration, Grade, Make, Model, Year, NumSeats, Transmission, Fuel, GPS, SunRoof, DailyRate, Colour));
             }
+            for (int i = 1; i < booking.Length; i++)
+            {
+                string[] parts = booking[i].Split(',');
+                int value = int.Parse(parts[1]);
+                rentals.Add(parts[0], value);
+            }
         }
         public void SaveToFile()
         {
             if (!File.Exists(fleetFile))
             {
                 File.Create(fleetFile);
+                File.Create(rentalFile);
             }
             var motors = new StringBuilder();
             var header = string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\"", "Registration","Grade", "Make", "Model", "Year", "NumSeats", "Transmission", "Fuel", "GPS", "SunRoof", "DailyRate","Colour");
@@ -71,9 +84,17 @@ namespace MRRCManagement
                 motors.AppendLine(newline);
             }
             File.WriteAllText(fleetFile, motors.ToString());
-
+            //Rentals
+            var rents = new StringBuilder();
+            var head = string.Format("\"{0}\",\"{1}\"", "Vehicle", "Customer");
+            rents.AppendLine(head);
+            foreach (var item in rentals)
+            {
+                rents.AppendLine(string.Format("{0},{1}", item.Key, item.Value));
+            }
+            File.WriteAllText(rentalFile, rents.ToString());
         }
-        public bool CheckRegitration(string Registration)
+        public bool CheckRegistration(string Registration)
         {
             foreach (var item in vehicleCollection.ToList())
             {
@@ -84,6 +105,7 @@ namespace MRRCManagement
             }
             return false;
         }
+
         public bool ModifyRecord(string Registration,string Grade, string Make, string Model, int Year, int  NumSeats, string Transmission, string Fuel,bool GPS, bool SunRoof, float DailyRate,string Colour)
         {
             foreach (var item in vehicleCollection.ToList())
@@ -145,6 +167,88 @@ namespace MRRCManagement
                     }
                 }
                 return true;
+            }
+        }
+
+        public bool IsRenting(int customerID)
+        {
+            if (rentals.ContainsValue(customerID))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool IsRented(string vehicleRego)
+        {
+            if (rentals.ContainsKey(vehicleRego))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int RentedBy(string vehicleRego)
+        {
+            int id;
+            if (rentals.ContainsKey(vehicleRego))
+            {
+                id = rentals[vehicleRego];
+            }
+            else
+            {
+                id = -1;
+            }
+            return id;
+
+        }
+
+        public bool RentCar(string vehicleRego, int customerID)
+        {
+            int counter = 0;
+            foreach (var item in vehicleCollection)
+            {
+                if (item.Registration == vehicleRego)
+                {
+                    counter++;
+                }
+            }
+            if (rentals.ContainsKey(vehicleRego))
+            {
+                return false;
+            }
+            else
+            {
+                if (counter > 0)
+                {
+                    rentals.Add(vehicleRego, customerID);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public int ReturnCar(string vehicleRego)
+        {
+            int ID;
+            if (!rentals.ContainsKey(vehicleRego))
+            {
+                return -1;
+            }
+            else
+            {
+                ID = rentals[vehicleRego];
+                rentals.Remove(vehicleRego);
+                return ID;
             }
         }
     }
